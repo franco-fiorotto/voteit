@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# .context is Conductor's scratch dir (ignored via .git/info/exclude).
+# Keep planning docs tracked as project documentation; ignore the rest.
+!.context/
+.context/*
+!.context/plans/
