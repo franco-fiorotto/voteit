@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import {
@@ -23,6 +23,7 @@ export default function PollPage() {
   const [error, setError] = useState<string | null>(null);
   const [voting, setVoting] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
+  const votingRef = useRef(false);
 
   useEffect(() => {
     pollsClient
@@ -30,10 +31,24 @@ export default function PollPage() {
       .then(setPoll)
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load poll'))
       .finally(() => setLoading(false));
+
+    // Poll for fresh counts so other voters' votes show up without a reload.
+    const interval = setInterval(() => {
+      if (votingRef.current || document.hidden) return;
+      pollsClient
+        .get(id)
+        .then(setPoll)
+        .catch(() => {
+          // Ignore transient refresh failures; keep showing the last known state.
+        });
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, [id]);
 
   const vote = async (optionId: string) => {
     setVoting(true);
+    votingRef.current = true;
     setError(null);
     try {
       const updated = await pollsClient.vote(id, optionId);
@@ -43,6 +58,7 @@ export default function PollPage() {
       setError(err instanceof Error ? err.message : 'Failed to record vote');
     } finally {
       setVoting(false);
+      votingRef.current = false;
     }
   };
 

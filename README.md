@@ -57,7 +57,7 @@ yarn build          # next production build
 | **Poll editing / closing / expiry** | Only create + vote + read. |
 | **Domain events / event bus** | The kernel has room for it (`AggregateRoot`) but it's unused here. |
 | **UI component / e2e tests** | Jest is scoped to the backend logic — the highest-value coverage for the time. Would add React Testing Library + Playwright. |
-| **Real-time updates** | Results refresh on action/reload, not via websockets/polling. |
+| **Real-time push (websockets/SSE)** | Results refresh via a lightweight 3s client-side polling interval on the poll page (skipped while a vote is in flight or the tab is hidden). True push delivery would need websockets/SSE. |
 
 ## Technical decisions
 
