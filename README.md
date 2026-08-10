@@ -1,4 +1,4 @@
-# 🗳️ VoteIt
+# 🗳️ VoteIt - https://voteit-ruddy.vercel.app/
 
 A tiny polling app: create a poll with a question and a few options, share the link, vote, and
 watch the results update with live percentages.
