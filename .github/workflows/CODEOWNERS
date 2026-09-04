@@ -1,0 +1,4 @@
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# Every file in the repo needs review from @franco-fiorotto before merge.
+
+*   @franco-fiorotto
